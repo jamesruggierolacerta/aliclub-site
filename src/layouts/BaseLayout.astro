@@ -11,24 +11,24 @@ import Logo from "../components/Logo.astro";
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{title ? `${title} | Ali Club` : "Ali Club"}</title>
     <meta name="description" content="Ali Club tours, results, photos and history." />
-    /favicon.svg
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
         <div class="navbar">
-          /
+          <a class="brand" href="/">
             <Logo />
             <span class="brand-title">Ali Club</span>
           </a>
 
           <nav class="nav" aria-label="Primary">
-            /Home</a>
-            /toursTours</a>
-            /seniorsSeniors</a>
-            /hawaii-cupHawaii Cup</a>
-            /roll-callRoll Call</a>
-            /constitutionConstitution</a>
+            <a href="/">Home</a>
+            <a href="/tours">Tours</a>
+            <a href="/seniors">Seniors</a>
+            <a href="/hawaii-cup">Hawaii Cup</a>
+            <a href="/roll-call">Roll Call</a>
+            <a href="/constitution">Constitution</a>
           </nav>
         </div>
       </div>
@@ -43,12 +43,13 @@ import Logo from "../components/Logo.astro";
         <div class="footer-row">
           <div class="small">© {new Date().getFullYear()} The Ali Club.</div>
           <div class="small">
-            /toursPast Tours</a> &nbsp;|&nbsp;
-            /seniorsSeniors</a> &nbsp;|&nbsp;
-            /hawaii-cupHawaii Cup</a>
+            <a href="/tours">Past Tours</a> &nbsp;|&nbsp;
+            <a href="/seniors">Seniors</a> &nbsp;|&nbsp;
+            <a href="/hawaii-cup">Hawaii Cup</a>
           </div>
         </div>
       </div>
     </footer>
   </body>
 </html>
+``
