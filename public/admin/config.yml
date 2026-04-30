@@ -1,0 +1,51 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+publish_mode: simple
+
+collections:
+  - name: "tours"
+    label: "Tours"
+    folder: "src/content/tours"
+    create: true
+    slug: "{{year}}"
+    fields:
+      - { label: "Year", name: "year", widget: "number", value_type: "int", min: 1990, max: 2100 }
+      - { label: "Venue", name: "venue", widget: "string" }
+      - { label: "Captain", name: "captain", widget: "string" }
+      - { label: "Dates", name: "dates", widget: "string" }
+      - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+      - { label: "Highlights", name: "highlights", widget: "text", required: false }
+
+      - label: "Competitions (multiple tables)"
+        name: "competitions"
+        widget: "list"
+        fields:
+          - { label: "Competition Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+          - label: "Rows"
+            name: "rows"
+            widget: "list"
+            fields:
+              - { label: "Position", name: "position", widget: "string" }
+              - { label: "Player", name: "player", widget: "string" }
+              - { label: "Points", name: "points", widget: "string", required: false }
+              - { label: "Notes", name: "notes", widget: "string", required: false }
+
+      - label: "Photo Gallery (add up to ~50)"
+        name: "gallery"
+        widget: "list"
+        field: { label: "Image", name: "image", widget: "image" }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: false
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "text", required: false }
