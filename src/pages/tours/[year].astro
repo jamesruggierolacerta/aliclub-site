@@ -4,19 +4,25 @@ import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const tours = await getCollection("tours");
-  return tours.map(t => ({
+  return tours.map((t) => ({
     params: { year: String(t.data.year) },
-    props: { tour: t }
+    props: { tour: t },
   }));
 }
 
 const { tour } = Astro.props;
 const { data } = tour;
+
+const heroSrc = data.heroImage && data.heroImage.trim().length > 0
+  ? data.heroImage
+  : "/default-hero.jpg";
+
+const heroAlt = `${data.year} ${data.venue} Tour`;
 ---
 
 <BaseLayout title={`${data.year} Tour`}>
   <section class="hero">
-    {data.heroImage
+    <img class="hero-img" src={heroSrc} alt={heroAlt} loading="eager" />
     <div class="hero-inner">
       <div class="container">
         <h1>{data.year} {data.venue} Tour</h1>
@@ -31,7 +37,7 @@ const { data } = tour;
         <h2 class="h2">Tour Highlights</h2>
         <p class="meta"><strong>Captain:</strong> {data.captain}</p>
 
-        {data.highlights && (
+        {data.highlights && data.highlights.trim().length > 0 && (
           <>
             <hr class="rule" />
             <p>{data.highlights}</p>
@@ -45,6 +51,7 @@ const { data } = tour;
               <section style="margin-bottom:18px;">
                 <h3 class="h2" style="margin-top:0;">{c.title}</h3>
                 {c.subtitle && <p class="meta">{c.subtitle}</p>}
+
                 <table class="table">
                   <thead>
                     <tr>
@@ -55,14 +62,20 @@ const { data } = tour;
                     </tr>
                   </thead>
                   <tbody>
-                    {c.rows.map((r) => (
+                    {c.rows?.length ? (
+                      c.rows.map((r) => (
+                        <tr>
+                          <td>{r.position}</td>
+                          <td>{r.player}</td>
+                          <td>{r.points ?? ""}</td>
+                          <td>{r.notes ?? ""}</td>
+                        </tr>
+                      ))
+                    ) : (
                       <tr>
-                        <td>{r.position}</td>
-                        <td>{r.player}</td>
-                        <td>{r.points ?? ""}</td>
-                        <td>{r.notes ?? ""}</td>
+                        <td colSpan="4" class="meta">No rows yet.</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </section>
@@ -85,11 +98,12 @@ const { data } = tour;
 
     <div class="card">
       <h2 class="h2">Photo Gallery</h2>
+
       {data.gallery?.length ? (
         <div class="gallery">
           {data.gallery.map((img) => (
-            {img}
-              {img}
+            <a href={img} class="thumb">
+              <img src={img} alt="" loading="lazy" />
             </a>
           ))}
         </div>
