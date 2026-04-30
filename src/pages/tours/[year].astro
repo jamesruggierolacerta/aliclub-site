@@ -1,0 +1,101 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const tours = await getCollection("tours");
+  return tours.map(t => ({
+    params: { year: String(t.data.year) },
+    props: { tour: t }
+  }));
+}
+
+const { tour } = Astro.props;
+const { data } = tour;
+---
+
+<BaseLayout title={`${data.year} Tour`}>
+  <section class="hero">
+    {data.heroImage
+    <div class="hero-inner">
+      <div class="container">
+        <h1>{data.year} {data.venue} Tour</h1>
+        <p>{data.dates}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <h2 class="h2">Tour Highlights</h2>
+        <p class="meta"><strong>Captain:</strong> {data.captain}</p>
+
+        {data.highlights && (
+          <>
+            <hr class="rule" />
+            <p>{data.highlights}</p>
+          </>
+        )}
+
+        {data.competitions?.length ? (
+          <>
+            <hr class="rule" />
+            {data.competitions.map((c) => (
+              <section style="margin-bottom:18px;">
+                <h3 class="h2" style="margin-top:0;">{c.title}</h3>
+                {c.subtitle && <p class="meta">{c.subtitle}</p>}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Position</th>
+                      <th>Player</th>
+                      <th>Points</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {c.rows.map((r) => (
+                      <tr>
+                        <td>{r.position}</td>
+                        <td>{r.player}</td>
+                        <td>{r.points ?? ""}</td>
+                        <td>{r.notes ?? ""}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </section>
+            ))}
+          </>
+        ) : (
+          <p class="meta">No results added yet.</p>
+        )}
+      </div>
+
+      <div class="card">
+        <h2 class="h2">Tour Info</h2>
+        <p class="meta"><strong>Venue:</strong> {data.venue}</p>
+        <p class="meta"><strong>Dates:</strong> {data.dates}</p>
+        <p class="meta"><strong>Captain:</strong> {data.captain}</p>
+      </div>
+    </div>
+
+    <div style="height:18px;"></div>
+
+    <div class="card">
+      <h2 class="h2">Photo Gallery</h2>
+      {data.gallery?.length ? (
+        <div class="gallery">
+          {data.gallery.map((img) => (
+            {img}
+              {img}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="meta">No photos added yet.</p>
+      )}
+    </div>
+  </div>
+</BaseLayout>
