@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getEntryBySlug } from "astro:content";
+
+const page = await getEntryBySlug("pages", "seniors");
+---
+
+<BaseLayout title="Seniors">
+  <div class="container">
+    <div class="card">
+      <h2 class="h2">{page?.data.title ?? "Seniors Tour"}</h2>
+      <p class="meta">{page?.data.body ?? ""}</p>
+    </div>
+  </div>
+</BaseLayout>
