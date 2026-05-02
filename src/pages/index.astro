@@ -1,4 +1,3 @@
-
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
@@ -6,26 +5,64 @@ import { getCollection } from "astro:content";
 const tours = await getCollection("tours");
 const sorted = tours.slice().sort((a, b) => b.data.year - a.data.year);
 const latest = sorted[0];
+const recent = sorted.slice(0, 6);
 
-const heroSrc = latest?.data.heroImage?.trim()
-  ? latest.data.heroImage
-  : "/default-hero.jpg";
+const heroSrc =
+  latest?.data.heroImage && latest.data.heroImage.trim().length > 0
+    ? latest.data.heroImage
+    : "/default-hero.jpg";
+
+const intro =
+  "Welcome to The Ali Club — tours, results, photos and history since 1996.";
 ---
 
-<BaseLayout title="Tours">
-  <div class="container">
-    <div class="card">
-      <h2 class="h2">Tours</h2>
-      <p class="meta">Select a year.</p>
-      <hr class="rule" />
-      <ul>
-        {sorted.map(t => (
-          <li>
-            {`/tours/${t.data.year}`}{t.data.year} — {t.data.venue}</a>
-            <span class="meta"> ({t.data.dates})</span>
-          </li>
-        ))}
-      </ul>
+<BaseLayout title="Home">
+  <section class="hero">
+    {heroSrc}
+    <div class="hero-inner">
+      <div class="container">
+        <h1>Ali Club</h1>
+        <p>{intro}</p>
+        {latest && (
+          <p style="margin-top:10px; opacity:.95;">
+            <strong>Next / Latest:</strong> {latest.data.year} {latest.data.venue} • {latest.data.dates}
+          </p>
+        )}
+      </div>
     </div>
-  </div>
-</BaseLayout>
+  </section>
+
+  <div class="container">
+    <div class="grid">
+      <!-- Left: Latest tour card -->
+      <div class="card">
+        <h2 class="h2">Latest Tour</h2>
+
+        {latest ? (
+          <>
+            <p class="meta">
+              <strong>{latest.data.year}</strong> — {latest.data.venue}
+            </p>
+            <p class="meta">{latest.data.dates}</p>
+            <p class="meta"><strong>Captain:</strong> {latest.data.captain}</p>
+
+            {latest.data.highlights && latest.data.highlights.trim().length > 0 && (
+              <>
+                <hr class="rule" />
+                <p style="margin:0;">{latest.data.highlights}</p>
+              </>
+            )}
+
+            <hr class="rule" />
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a
+                href={`/tours/${latest.data.year}`}
+                style="display:inline-block; padding:10px 12px; border-radius:12px; background: var(--green); color:#fff; text-decoration:none;"
+              >
+                View {latest.data.year} Tour →
+              </a>
+
+              <a
+                href="/tours"
+
