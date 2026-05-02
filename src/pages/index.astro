@@ -65,4 +65,74 @@ const intro =
 
               <a
                 href="/tours"
+                style="display:inline-block; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff; text-decoration:none;"
+              >
+                Browse all tours
+              </a>
+            </div>
+          </>
+        ) : (
+          <p class="meta">No tours added yet. Add your first one in /admin.</p>
+        )}
+      </div>
 
+      <!-- Right: Quick links -->
+      <div class="card">
+        <h2 class="h2">Quick Links</h2>
+        <p class="meta">Everything important in one click.</p>
+        <hr class="rule" />
+
+        <div style="display:grid; gap:10px;">
+          <a href="/tours" style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff;">
+            <strong>Tours</strong><br />
+            <span class="meta">All years, results and photos</span>
+          </a>
+
+          <a href="/seniors" style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff;">
+            <strong>Seniors Tour</strong><br />
+            <span class="meta">Hawaii Cup & seniors history</span>
+          </a>
+
+          <a href="/hawaii-cup" style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff;">
+            <strong>Hawaii Cup</strong><br />
+            <span class="meta">Winners and notes</span>
+          </a>
+
+          <a href="/roll-call" style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff;">
+            <strong>Roll Call</strong><br />
+            <span class="meta">Who was there — by year</span>
+          </a>
+
+          <a href="/constitution" style="text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#fff;">
+            <strong>Constitution</strong><br />
+            <span class="meta">How the club runs</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent tours list -->
+    <div style="height:18px;"></div>
+
+    <div class="card">
+      <h2 class="h2">Recent Tours</h2>
+      <p class="meta">Jump straight into a year.</p>
+      <hr class="rule" />
+
+      {recent.length ? (
+        <ul style="margin:0; padding-left: 18px;">
+          {recent.map((t) => (
+            <li style="margin: 8px 0;">
+              <a href={`/tours/${t.data.year}`} style="text-decoration:none;">
+                <strong>{t.data.year}</strong> — {t.data.venue}
+              </a>
+              <span class="meta"> ({t.data.dates})</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="meta">No tours added yet.</p>
+      )}
+    </div>
+  </div>
+</BaseLayout>
