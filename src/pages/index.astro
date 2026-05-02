@@ -1,9 +1,15 @@
+
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const tours = await getCollection("tours");
-const sorted = tours.slice().sort((a,b) => b.data.year - a.data.year);
+const sorted = tours.slice().sort((a, b) => b.data.year - a.data.year);
+const latest = sorted[0];
+
+const heroSrc = latest?.data.heroImage?.trim()
+  ? latest.data.heroImage
+  : "/default-hero.jpg";
 ---
 
 <BaseLayout title="Tours">
